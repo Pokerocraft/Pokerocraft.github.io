@@ -1,2 +1,2 @@
 # Pokerocraft.github.io
-Explanation of public stuff.
+A small little website that I made to share all of my public projects.
