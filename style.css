@@ -1,0 +1,55 @@
+body {
+    background-color: darkgreen;
+}
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+.sprite-wave {
+    flex-shrink: 0;
+    width: 48px;
+    height: 74px;
+    background: url('Files/Welcomer.png') no-repeat;
+    image-rendering: pixelated;
+    animation: piskel-wave 0.5s steps(1) infinite;
+    transform: scale(2);
+    transform-origin: center center;
+}
+
+@keyframes piskel-wave {
+    0%   { background-position: 0px 0px; }
+    25%  { background-position: -48px 0px; }
+    50%  { background-position: 0px -74px; }
+    75%  { background-position: -48px -74px; }
+    100% { background-position: 0px 0px; }
+}
+.intro-text {
+    margin: 0;
+    font-family: "Times New Roman";
+}
+.projects-section {
+    margin-top: 40px;
+}
+details {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+summary {
+    padding: 10px 20px;
+    background-color: #2ea44f;
+    color: white;
+    cursor: pointer;
+    list-style: none;
+    font-weight: bold;
+}
+summary:hover {
+    background-color: #2c974b;
+}
+.project-content {
+    padding: 15px;
+    background-color: #f6f8fa;
+}
