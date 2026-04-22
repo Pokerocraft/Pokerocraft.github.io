@@ -51,5 +51,10 @@ summary:hover {
 }
 .project-content {
     padding: 15px;
-    background-color: #f6f8fa;
+    background-color: darkslategray;
+    p {color: white}
+    a:link {color: white}
+    a:visited {color: wheat}
+    a:hover {color: honeydew}
+    a:active {color: azure}
 }
