@@ -7,6 +7,23 @@ body {
     gap: 20px;
     padding: 20px;
 }
+.gallery {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    justify-content: center;
+}
+.gallery img {
+    flex: 1;
+    min-width: 0;
+    height: 350px;
+    object-fit: contain;
+    background-color: cadetblue;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
 .sprite-wave {
     flex-shrink: 0;
     width: 48px;
@@ -30,7 +47,12 @@ body {
     font-family: "Times New Roman";
 }
 .projects-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
     margin-top: 40px;
+    background-color: darkolivegreen;
 }
 details {
     margin-bottom: 10px;
@@ -57,4 +79,10 @@ summary:hover {
     a:visited {color: wheat}
     a:hover {color: honeydew}
     a:active {color: azure}
+}
+h1 {
+    color: white;
+}
+h2 {
+    color: white;
 }
