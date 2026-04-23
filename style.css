@@ -1,12 +1,21 @@
+/**
+Background stuff
+ */
 body {
     background-color: darkgreen;
 }
+/**
+Container for the Waving Sprite and the Introductory Text
+ */
 .header-container {
     display: flex;
     align-items: center;
     gap: 20px;
     padding: 20px;
 }
+/*
+Photos for display purposes
+ */
 .gallery {
     display: flex;
     gap: 15px;
@@ -14,6 +23,9 @@ body {
     width: 100%;
     justify-content: center;
 }
+/**
+Similar to Gallery, but specific to the images themselves
+ */
 .gallery img {
     flex: 1;
     min-width: 0;
@@ -23,29 +35,40 @@ body {
     border: 1px solid #ddd;
     border-radius: 6px;
 }
-
+/**
+Animated Spritesheet
+ */
 .sprite-wave {
     flex-shrink: 0;
     width: 48px;
     height: 74px;
     background: url('Files/Welcomer.png') no-repeat;
     image-rendering: pixelated;
-    animation: piskel-wave 0.5s steps(1) infinite;
+    animation: wave-hi 0.5s steps(1) infinite;
     transform: scale(2);
     transform-origin: center center;
 }
 
-@keyframes piskel-wave {
-    0%   { background-position: 0px 0px; }
-    25%  { background-position: -48px 0px; }
-    50%  { background-position: 0px -74px; }
+/**
+Keyframes going to specific positions of the spritesheet to make the character wave
+ */
+@keyframes wave-hi {
+    0%   { background-position: 0 0; }
+    25%  { background-position: -48px 0; }
+    50%  { background-position: 0 -74px; }
     75%  { background-position: -48px -74px; }
-    100% { background-position: 0px 0px; }
+    100% { background-position: 0 0; }
 }
+/**
+Appearance of the introductory text.
+ */
 .intro-text {
     margin: 0;
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", serif;
 }
+/**
+Appearance of the section that holds the projects, and their subsections.
+ */
 .projects-section {
     display: flex;
     align-items: center;
@@ -56,12 +79,18 @@ body {
     border-radius: 20px;
     flex-shrink: 0;
 }
+/**
+Holds everything associated with a project
+ */
 details {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
 }
+/**
+Appearance of the summary button.
+ */
 summary {
     padding: 10px 20px;
     background-color: #2ea44f;
@@ -70,9 +99,17 @@ summary {
     list-style: none;
     font-weight: bold;
 }
+/**
+Changes the background color when you hover over the button.
+ */
 summary:hover {
     background-color: #2c974b;
 }
+/**
+Holds the background, and padding, and such for the contents of a project.
+Has the backgrounds as dark slate gray, the text as white, same with the link,
+though it changes to wheat when it's been visited.
+ */
 .project-content {
     padding: 15px;
     background-color: darkslategray;
@@ -82,9 +119,55 @@ summary:hover {
     a:hover {color: honeydew}
     a:active {color: azure}
 }
+/**
+Forces all 1st level headers to be White
+ */
 h1 {
     color: white;
 }
+/**
+Forces all 2nd level headers to be White
+ */
 h2 {
     color: white;
+}
+/**
+Forces all paragraphs to be White
+(After all, black doesn't look too great on a dark green background)
+ */
+p {
+    color: white;
+}
+/**
+Styling of basically a button in HTML and CSS
+ */
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: olive;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+/**
+Changes the color of the button when hovering over something.
+ */
+.button-link:hover {
+    background-color: darkolivegreen;
+}
+
+/**
+Styling of basically a button in HTML and CSS
+ */
+.button-link-disabled {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: olive;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: default;
 }
