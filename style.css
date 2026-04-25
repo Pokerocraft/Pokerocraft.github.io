@@ -2,8 +2,26 @@
 Background stuff
  */
 body {
-    background-color: darkgreen;
+    background-color: #0b1a0e;
+    color: #e0f0e3;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    line-height: 1.6;
+    margin: 0
 }
+
+.giant-toolbar {
+/* Slightly lighter toolbar*/
+background-color: #142b19;
+display: flex;
+padding: 15px 10%;
+gap: 15px;
+border-bottom: 3px solid #2ea44f;
+position: sticky;
+top: 0;
+z-index: 1000;
+box-shadow: 0 4px 10px rgba(0,0,0,0.3)
+}
+
 /**
 Container for the Waving Sprite and the Introductory Text
  */
@@ -57,7 +75,6 @@ Keyframes going to specific positions of the spritesheet to make the character w
     25%  { background-position: -48px 0; }
     50%  { background-position: 0 -74px; }
     75%  { background-position: -48px -74px; }
-    100% { background-position: 0 0; }
 }
 /**
 Appearance of the introductory text.
@@ -70,14 +87,12 @@ Appearance of the introductory text.
 Appearance of the section that holds the projects, and their subsections.
  */
 .projects-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    margin-top: 40px;
-    background-color: darkolivegreen;
-    border-radius: 20px;
-    flex-shrink: 0;
+max-width: 1000px;
+margin: 40px auto;
+padding: 30px;
+background-color: #1a3321;
+border-radius: 12px;
+border: 1px solid #2ea44f;
 }
 /**
 Holds everything associated with a project
@@ -119,55 +134,30 @@ though it changes to wheat when it's been visited.
     a:hover {color: honeydew}
     a:active {color: azure}
 }
-/**
-Forces all 1st level headers to be White
- */
-h1 {
-    color: white;
-}
-/**
-Forces all 2nd level headers to be White
- */
-h2 {
-    color: white;
-}
-/**
-Forces all paragraphs to be White
-(After all, black doesn't look too great on a dark green background)
- */
-p {
-    color: white;
+h1, h2, p {
+color: #e0f0e3;
 }
 /**
 Styling of basically a button in HTML and CSS
  */
-.button-link {
+.button-link,
+ .button-link-disabled {
     display: inline-block;
     padding: 10px 20px;
-    background-color: olive;
+    background-color: #142b19;
     color: white;
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
-    cursor: pointer;
+    transition: background-color 0.2s;
 }
 /**
 Changes the color of the button when hovering over something.
  */
 .button-link:hover {
-    background-color: darkolivegreen;
+    background-color: #2ea44f;
 }
-
-/**
-Styling of basically a button in HTML and CSS
- */
 .button-link-disabled {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: olive;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    text-align: center;
+    background-color: #2ea44f;
     cursor: default;
 }
