@@ -15,14 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const isCurrentPage = currentPath.includes(item.filename) || isRootHome;
 
-        const isBlogPost = item.text === "Blog" && currentPath.includes("/Blogs/");
+        const isBlogPost = item.text === "Blog" && currentPath.includes("/blog/");
+        const isReview = item.text === "Software" && currentPath.includes("/reviews/")
 
-        if (isCurrentPage && !isBlogPost) {
+        if (isCurrentPage && (!isBlogPost && !isReview)) {
             const disabledLink = document.createElement("a");
             disabledLink.className = "button-link-disabled";
             disabledLink.textContent = item.text;
             navContainer.appendChild(disabledLink);
-        } else if (isBlogPost) {
+        } else if (isBlogPost || isReview) {
             const activeLink = document.createElement("a");
             activeLink.href = item.url;
             activeLink.className = "button-link-active";

@@ -294,15 +294,59 @@ h4 {
     color: #2ea44f;
     margin-top: 50px;
     font-size: 1.8rem;
-    border-bottom: 2px solid #1a3321;
+    border-bottom: 2px solid #2e6c3c;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+    align-items: center;
+    text-align: center;
+}
+.review-body {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.review-body h2 {color: #2ea44f;
+    margin-top: 50px;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #2e6c3c;
     display: inline-block;
     padding-bottom: 5px;
 }
-.game-highlight img {
-max-width: 100%;
-border: 3px solid #2ea44f;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-transition: transform 0.3s
+
+.review-sides {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100% !important;
+    max-width: 1000px;
+    margin: 0 auto !important;
+}
+.review-sides .review-column summary {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    list-style: none;
+}
+.review-sides .review-column summary::-webkit-details-marker {
+    display: none !important;
+}
+
+.review-sides .review-column summary::before {
+    content: "▶" !important;
+    font-size: 0.8rem;
+    margin-right: 10px;
+}
+.review-sides .review-column[open] summary::before {
+    content: "▼" !important;
 }
 
 .game-highlight img:hover {
