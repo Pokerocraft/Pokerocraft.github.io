@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../navigation.js"></script>
+    <meta charset="UTF-8">
+    <title>Installation Guide: Arch Linux</title>
+    <link rel="icon" type="image/png" href="../Files/favicon.png">
+</head>
+<body>
+<div class="giant-toolbar">
+    <nav id="global-nav"></nav>
+</div>
+
+<h1>How to Install Arch Linux</h1>
+<section class="post-body">
+    <p>I should probably preface this by saying that there is an easy way and a hard-ish way, the easy way is to use a teeny tiny little script called archinstall, it gives you a TUI based navigation to easily install Arch Linux, however, we're not taking that route, we're doing a manual install.<br><br>
+        This guide assumes the following:<br>
+         1. You are using an AMD 64 Architecture, this means that if you have an X86_64 CPU, you'll be golden.<br> 
+         2. You either have an AMD Graphics Card or you are using some kind of Virtualization Software like VirtualBox.<br> 
+         3. If you don't see something here, either use your search engine or look at the Arch Wiki, as this is a basic explanation to show a manual install of Arch Linux that can be fairly easily replicated.<br>
+          With those 3 things out of the way, let's get started.</p>
+<h2>Phase 1: Hardware and BIOS</h2>
+<p>Well, firstly, you'll need 2 things, a computer, and a flash drive, if you're coming from Windows, go into the BIOS/UEFI via repeatedly pressing your specific key, which is fairly easy to search up, in my case, it's the delete key, and turn off Secure Boot. <br>
+You'll then want a Flash Drive, with the Arch Installation file on there, which if you don't know what to do, just look up Arch Downloads, and BalenaEtcher in the event of a physical install elsewise, you just need the ISO file for a Virtualization Software like VirtualBox, you're going to want to go back into the BIOS / UEFI (For the sake of simplicity, I will refer to this as the BIOS), if you use a VM, you'll be at the next step, but you'll want to boot from your USB you flashed with Arch.<br>
+You should now be inside the live environment, with a command line that says archiso</p>
+<h2>Phase 2: Live Environment & Internet</h2>
+<p>Firstly, to verify you're on UEFI mode, I recommend using the command <pre><code>cat /sys/firmware/efi/fr_platform_size</code></pre> as it shows whether you're running a 32-bit computer or 64-bit.</p>
+<p>Next, you'll probably want to change the font to be larger, so I'd recommend setting running <pre><code>setfont ter-132b</code></pre> to allow for easier visibility.</p>
+<p>I'd then recommend you have some way of connecting via Ethernet (Virtual Machines seem to handle Internet passthrough via treating it as Ethernet), with Ethernet, you can skip this step, but if not, then you'll want to run the following: <pre><code>iwctl</code></pre></p>
+<p>Now, with this, you'll then be in a utility called the iNet Wireless Daemon (iwd for short), you'll then want to call <pre><code>device list</code></pre></p>
+</section>
+</body>
+</html>

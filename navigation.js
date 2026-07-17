@@ -17,13 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const isBlogPost = item.text === "Blog" && currentPath.includes("/blog/");
         const isReview = item.text === "Software" && currentPath.includes("/reviews/")
+        const isInstallGuide = item.text === "Software" && currentPath.includes("/installation-guides/")
 
-        if (isCurrentPage && (!isBlogPost && !isReview)) {
+        if (isCurrentPage && (!isBlogPost && !isReview && !isInstallGuide)) {
             const disabledLink = document.createElement("a");
             disabledLink.className = "button-link-disabled";
             disabledLink.textContent = item.text;
             navContainer.appendChild(disabledLink);
-        } else if (isBlogPost || isReview) {
+        } else if (isBlogPost || isReview || isInstallGuide) {
             const activeLink = document.createElement("a");
             activeLink.href = item.url;
             activeLink.className = "button-link-active";
