@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isLocalIntelliJ = window.location.hostname === "localhost" || window.location.port === "63342";
     const pathPrefix = isLocalIntelliJ ? "" : "";
     const menuItems = [
-        {text: "Home Page",filename: "index", url: `${pathPrefix}/kuportfolio/index.html`},
+        {text: "Home Page",filename: "index", url: `${pathPrefix}/collegePortfolio/index.html`},
     ];
     const navContainer = document.getElementById("global-nav");
     if (!navContainer) return;
