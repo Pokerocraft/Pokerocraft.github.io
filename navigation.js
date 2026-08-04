@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const currentPath = window.location.pathname;
     const isLocalIntelliJ = window.location.hostname === "localhost" || window.location.port === "63342";
-    const pathPrefix = isLocalIntelliJ ? "/Pokerocraft.github.io" : "";
+    const pathPrefix = isLocalIntelliJ ? "" : "";
     const menuItems = [
         {text: "Home Page",filename: "index", url: `${pathPrefix}/index.html`},
         {text: "Projects", filename: "projects", url: `${pathPrefix}/projects.html`},
