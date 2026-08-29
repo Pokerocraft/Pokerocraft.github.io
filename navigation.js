@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
         {text: "Home Page",filename: "index", url: `${pathPrefix}/index.html`},
         {text: "Projects", filename: "projects", url: `${pathPrefix}/projects.html`},
         {text: "Blog", filename: "blog", url: `${pathPrefix}/blog.html`},
-        {text: "Software", filename: "software", url: `${pathPrefix}/software.html`}
+        {text: "Software", filename: "software", url: `${pathPrefix}/software.html`},
+        //{text: "Installation Guides", filename:"installation-guides", url:`${pathPrefix}/installation-guides.html`}
     ];
     const navContainer = document.getElementById("global-nav");
     if (!navContainer) return;
