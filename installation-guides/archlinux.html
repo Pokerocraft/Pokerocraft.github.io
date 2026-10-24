@@ -93,9 +93,9 @@
         <p>With your BIOS system, you'll want to select the DOS partition, oftentimes it's known as the MBR partition.</p>
         <p>You should be able to proceed with the below image as an example of a BIOS partition, though the size should be your full drive, whereas I am using Virtual Machines with a max size of 100GB, unless you're using a 2TB drive which BIOS has a max storage capacity of 2TB</p>
         <div class="gallery">
-        <img src="../Files/install-guides/Arch/BIOSPartition.png"
-        <p>You'll notice that the type is Linux, this is good. After this is done, make your way to the write section, type out yes, then press enter, then press quit</p>
+        <img src="../Files/install-guides/Arch/BIOSPartition.png">
         </div>
+        <p>You'll notice that the type is Linux, this is good. After this is done, make your way to the write section, type out yes, then press enter, then press quit</p>
         <p>After that, you'll need to initialize this, for the sake of simplicity, we will make the partition type ext4. The partition should be something along the lines of nvme0n1p1 or sda1.</p>
         <p>To make it be of type ext4, we will run the following:</p>
         <pre><code>mkfs.ext4 /dev/&lt;driveNameP1&gt;</code></pre>
@@ -112,7 +112,7 @@
         <p>Lastly, your final partition should be the rest of your drive's storage, you'll want to set it to Linux root (x86_64)</p>
         <p>After that's done, you should have something that looks like this, though should be different depending on the sizes you picked.</p>
         <div class="gallery">
-            <img src="../Files/install-guides/Arch/UEFIPartition.png"
+            <img src="../Files/install-guides/Arch/UEFIPartition.png">
         </div>
         <p>With this, you'll want to run the following, for the sake of simplicity for myself, I'll use the example of &ltdriveNameP#&gt;, if you're using an NVMe drive, your partitions will look like nvme0n1p1, nvme0n1p2, and nvme0n1p3, for others it should be sda1, sda2, and sda3. We run the following commands:</p>
         <pre><code>mkfs.fat -F 32 /dev/&lt;driveNameP1&gt <br>mkswap /dev/&lt;driveNameP2&gt <br> mkfs.ext4 /dev/&lt;driveNameP3&gt</code></pre>
@@ -233,7 +233,7 @@
         poweroff</code></pre>
     <p>Once your computer or virtual machine is shut down completely, remove the installation drive (Whether that's unplugging a USB or removing a virtual Disk). Turn your machine back on, and you should now have Arch Linux fully ready. Log in to SDDM and now you should see something like this:</p>
     <div class="gallery">
-        <img src="../Files/install-guides/Arch/RevealOfTruth.png"
+        <img src="../Files/install-guides/Arch/RevealOfTruth.png">
     </div>
     <p>If you see something like this. Congrats, you've just successfully manually installed Arch Linux, now, if you want to install any more packages, look them up in the arch linux package list, you can download fastfetch to proclaim "I use Arch BTW", or download Firefox to have a working internet browser, or heck, even installing a new desktop environment for customization, after all, don't let a basic installation of Arch with KDE Plasma stop you from trying out other desktop environments.</p>
 </section>
