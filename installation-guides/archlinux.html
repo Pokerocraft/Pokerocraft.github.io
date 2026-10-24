@@ -12,23 +12,230 @@
     <nav id="global-nav"></nav>
 </div>
 
-<h1>How to Install Arch Linux</h1>
 <section class="post-body">
-    <p>I should probably preface this by saying that there is an easy way and a hard-ish way, the easy way is to use a teeny tiny little script called archinstall, it gives you a TUI based navigation to easily install Arch Linux, however, we're not taking that route, we're doing a manual install.<br><br>
-        This guide assumes the following:<br>
-         1. You are using an AMD 64 Architecture, this means that if you have an X86_64 CPU, you'll be golden.<br> 
-         2. You either have an AMD Graphics Card or you are using some kind of Virtualization Software like VirtualBox.<br> 
-         3. If you don't see something here, either use your search engine or look at the Arch Wiki, as this is a basic explanation to show a manual install of Arch Linux that can be fairly easily replicated.<br>
-          With those 3 things out of the way, let's get started.</p>
-<h2>Phase 1: Hardware and BIOS</h2>
-<p>Well, firstly, you'll need 2 things, a computer, and a flash drive, if you're coming from Windows, go into the BIOS/UEFI via repeatedly pressing your specific key, which is fairly easy to search up, in my case, it's the delete key, and turn off Secure Boot. <br>
-You'll then want a Flash Drive, with the Arch Installation file on there, which if you don't know what to do, just look up Arch Downloads, and BalenaEtcher in the event of a physical install elsewise, you just need the ISO file for a Virtualization Software like VirtualBox, you're going to want to go back into the BIOS / UEFI (For the sake of simplicity, I will refer to this as the BIOS), if you use a VM, you'll be at the next step, but you'll want to boot from your USB you flashed with Arch.<br>
-You should now be inside the live environment, with a command line that says archiso</p>
-<h2>Phase 2: Live Environment & Internet</h2>
-<p>Firstly, to verify you're on UEFI mode, I recommend using the command <pre><code>cat /sys/firmware/efi/fr_platform_size</code></pre> as it shows whether you're running a 32-bit computer or 64-bit.</p>
-<p>Next, you'll probably want to change the font to be larger, so I'd recommend setting running <pre><code>setfont ter-132b</code></pre> to allow for easier visibility.</p>
-<p>I'd then recommend you have some way of connecting via Ethernet (Virtual Machines seem to handle Internet passthrough via treating it as Ethernet), with Ethernet, you can skip this step, but if not, then you'll want to run the following: <pre><code>iwctl</code></pre></p>
-<p>Now, with this, you'll then be in a utility called the iNet Wireless Daemon (iwd for short), you'll then want to call <pre><code>device list</code></pre></p>
+    <!--Guidance-->
+    <h3>How to Install Arch Linux</h3>
+    <p>Guide is meant to provide a simplified, beginner-friendly walkthrough of manually installing Arch Linux and installing the KDE Plasma Desktop Environment</p>
+    <!--Covering-->
+    <h3>What the guide covers</h3>
+    <ul>
+        <li><strong>Beginner-Friendly:</strong> I will try my best to explain any commands without any of the usual dense jargon that the less tech-inclined won't really understand.</li>
+        <li><strong>KDE Plasma:</strong> A customizable desktop environment that feels familiar to Windows users.</li>
+        <li><strong>Hardware:</strong> Drivers and configs meant mainly for AMD GPUs and VirtualBox environments (Nvidia likes to keep drivers closed-source)</li>
+        <li><strong>Standard Architecture:</strong> Arch is pretty much only designed for x86-64 (AMD64) architecture, so no ARM or RISC-V unfortunately.</li>
+    </ul>
+    <hr>
+    <!--Install Options-->
+    <h3>Install Path</h3>
+    <h2>Option 1: Bare Metal (Real Hardware)</h2>
+    <p>If you've decided to completely forsake Windows or are distro hopping, here's what you'll need to get started:</p>
+    <ul>
+        <li>A USB Flash Drive (Probably 4GB Minimum, the ISO as of October 2026 is around 1.53 GB though)</li>
+        <li>The latest Arch Linux ISO file (Which you can download from <a href="https://archlinux.org/download/">here</a>, just scroll to HTTP Direct Downloads and pick a mirror closest to where you live for fast download speeds.)</li>
+        <li>An Image Flashing utility to make your bootable drive, such as <strong>BalenaEtcher</strong>, <strong>Rufus</strong>, or <strong>Raspberry Pi Imager</strong> (Yes that is a valid image flashing utility software)</li>
+        <li>Reading Comprehension</li>
+    </ul>
+    <p><strong>Getting Started:</strong> Download the ISO from that link. Flash the image to your USB using your image flashing util, look up your computer's boot menu shortcut key, then restart your computer and repeatedly press that boot menu key to then select your USB and boot into the installer.</p>
+
+    <h2>Option 2: Virtual Machine</h2>
+    <p>If you're installing Arch into a Virtual Environment, you need the following:</p>
+    <ul>
+        <li>The latest Arch Linux ISO file (Which you can download from <a href="https://archlinux.org/download/">here</a>, just scroll to HTTP Direct Downloads and pick a mirror closest to where you live for fast download speeds.)</li>
+        <li>Some virtualization software of choice, whether that be Oracle VirtualBox (Which aside from the extension pack is FOSS), VMWare Workstation Pro, QEMU, any virtualization software should work as long as you know how to set up a virtual machine in that app (This guide is meant to guide you on installing Arch, not Virtualization software)</li>
+        <li>Reading Comprehension</li>
+    </ul>
+    <!--Getting Started-->
+    <h3>Getting Started with Arch</h3>
+    <p>Once you've restarted your computer and booted to the USB, or ran your VM with the ISO file, you should see one of these two screens.</p>
+    <div class="gallery">
+        <img src="../Files/install-guides/Arch/Begin.png">
+    </div>
+    <p>You'll notice that the window on the left mentions UEFI, while the smaller window on the right mentions BIOS. BIOS is an older standard that was the industry standard for about 30 years, and also considered old, around the release of Windows 8, UEFI became widespread, and practically every modern computer runs on UEFI. The steps should be relatively similar though.<br></p>
+    <p>I will mainly be targetting UEFI, so if I mention any BIOS exclusive steps and you're using BIOS, then you should follow those rather than EFI specific steps.</p>
+    <div class="gallery">
+        <img src="../Files/install-guides/Arch/CLI.png">
+    </div>
+    <p>Once you select your option, which is typically the top-most one, and will automatically pick that unless you move your cursor, you will see something along the lines of this.<br>
+    This is a Command Line Interface, or CLI for short, CLIs are pretty much just typing text and pressing the enter/return key. You may find the text is a little small, so you could type in <pre><code>setfont ter-132b</code></pre> This changes the font size to be larger.</p>
+    <p>Now, there is an easy way out in using <pre><code>archinstall</code></pre> Which gives you a Text User Environment (TUI) to work with, but that's cheaping out, and besides, the guide is to manually install Arch Linux.</p>
+    <!--Internet-->
+    <h3>Internet</h3>
+    <p>One of the first things you may have to do is set up internet, because yes we download from the internet. If you're using a Virtual Machine, or your device is plugged into Ethernet, you should be able to skip this step. But if you aren't hooked up to Ethernet, you'll need to run the following lines of code:</p>
+    <pre><code>iwctl</code></pre>
+    <p>Running iwctl will put you into a new environment of sorts shown below.</p>
+    <div class="gallery">
+        <img src="../Files/install-guides/Arch/IWCTL.png">
+    </div>
+    <p>Next up you'll want to run the following:</p>
+    <pre><code>device list</code></pre>
+    <p>The above command will show any and all network devices you could use. With Ethernet, it will show nothing, which means you will want to skip that section as it's not needed to try and set up Internet for something that already has it.</p>
+    <p>Next up would be saving possible networks to cache and loading that cache, which is impossible for me as via guiding through VirtualBox means Arch for me gets treated as having Ethernet connected. But it should be something along the lines of:</p>
+    <pre><code>station wlan0 scan<br>station wlan0 get-networks</code></pre>
+    <p>This should show you all potential networks available. You'll want to find your network and then run the following, with the SSID portion being replaced by your network's SSID (It may also require a passphrase, this should just be your Wi-Fi password):</p>
+    <pre><code>station wlan0 connect &lt;SSID&gt;</code></pre>
+    <p>Once you're done with the network stuff, you can either type exit into the CLI interface, or press CTRL+C</p>
+    <p>To ensure it works, I recommend checking you have a connection by running:</p>
+    <pre><code>ping -c 3 google.com</code></pre>
+    <p>This basically just tries to see if you can get a response from Google's servers, if it pings google.com 3 times saying 64 bytes each time, that's good!</p>
+    <!--Partitioning :3-->
+    <h3>Partitions</h3>
+    <p>Partitioning is where your storage drive is split into usable sections. This is where there is a major difference between a BIOS system and a UEFI system.</p>
+    <p>First though we'll run a command to check our drive's name, we can ignore sr0 and loop, but we will run the following:</p>
+    <pre><code>lsblk</code></pre>
+    <p>Typically your drive will either be listed as nvme0n1 or sda depending on your drive type, NVMe SSDs will use the former, while pretty much everything will be the latter. This is your drive name</p>
+    <p>With that, we know what we will be targetting in terms of your storage drive. Next up is to run this:</p>
+    <pre><code>cfdisk /dev/&lt;driveName&gt;</code></pre>
+    <p>Now, in the above code, you'll want to replace &lt;driveName&gt; with the drive name you found, if it has other partitions, don't worry, those will get deleted, which is likely the case for Windows as it uses NTFS partitioning.</p>
+    <p>With that, now it's time for the difference between BIOS and UEFI in the partition scheme. Make sure to look at the subsection that your computer is, which you should remember from the beginning.</p>
+    <p>Before we go into the BIOS/UEFI specific sections for partitioning, cfdisk is a Text User Interface based partitioning software, where you use arrow keys and enter.</p>
+    <details>
+        <summary>For BIOS Systems</summary>
+        <p>With your BIOS system, you'll want to select the DOS partition, oftentimes it's known as the MBR partition.</p>
+        <p>You should be able to proceed with the below image as an example of a BIOS partition, though the size should be your full drive, whereas I am using Virtual Machines with a max size of 100GB, unless you're using a 2TB drive which BIOS has a max storage capacity of 2TB</p>
+        <div class="gallery">
+        <img src="../Files/install-guides/Arch/BIOSPartition.png"
+        <p>You'll notice that the type is Linux, this is good. After this is done, make your way to the write section, type out yes, then press enter, then press quit</p>
+        </div>
+        <p>After that, you'll need to initialize this, for the sake of simplicity, we will make the partition type ext4. The partition should be something along the lines of nvme0n1p1 or sda1.</p>
+        <p>To make it be of type ext4, we will run the following:</p>
+        <pre><code>mkfs.ext4 /dev/&lt;driveNameP1&gt;</code></pre>
+        <p>I am using driveName as a standin for either your nvme0n1 or sda drive with PNum either being p1 or 1 for the respective drive names. </p>
+        <p>After formatting that partition, you want to mount the file system, which would be:</p>
+        <pre><code>mount /dev/&lt;driveNameP1&gt; /mnt</code></pre>
+    </details>
+    <details>
+        <summary>For UEFI Systems</summary>
+        <p>With your UEFI system, you'll want to select the GPT partition</p>
+        <p>You'll need a bit more than the BIOS section, as UEFI needs its own partition</p>
+        <p>Your first partition in UEFI will have a size of 512 Megabytes (Written in as 512M), which afterwards you'll want to change to EFI Filesystem via the type button.</p>
+        <p>Your next one could be a swap partition, which is basically backup RAM on your storage drive, it's recommended to have 4 GB swap space, that or the amount equal to the amount of RAM you have. We'll just set up 4 GB, which will be set to Linux Swap.</p>
+        <p>Lastly, your final partition should be the rest of your drive's storage, you'll want to set it to Linux root (x86_64)</p>
+        <p>After that's done, you should have something that looks like this, though should be different depending on the sizes you picked.</p>
+        <div class="gallery">
+            <img src="../Files/install-guides/Arch/UEFIPartition.png"
+        </div>
+        <p>With this, you'll want to run the following, for the sake of simplicity for myself, I'll use the example of &ltdriveNameP#&gt;, if you're using an NVMe drive, your partitions will look like nvme0n1p1, nvme0n1p2, and nvme0n1p3, for others it should be sda1, sda2, and sda3. We run the following commands:</p>
+        <pre><code>mkfs.fat -F 32 /dev/&lt;driveNameP1&gt <br>mkswap /dev/&lt;driveNameP2&gt <br> mkfs.ext4 /dev/&lt;driveNameP3&gt</code></pre>
+        <p>With this, you've now got your partitions formatted, and can now mount them with:</p>
+        <pre><code>mount /dev/&lt;driveNameP3&gt /mnt <br> mount --mkdir /dev/&lt;driveNameP1&gt /mnt/boot</code></pre>
+        <p>We essentially make a shortcut to /dev/&lt;driveNameP3&gt to /mnt with this command, and the --mkdir flag makes a new folder called /boot.</p>
+        <p>It's also recommended to enable your swap with the following line of code:</p>
+        <pre><code>swapon /dev/&lt;driveNameP2&gt</code></pre>
+    </details>
+    <!--Chrooting time!-->
+    <h3>Base System and Chroot</h3>
+    <p>With our partition(s) formatted and mounted, we're now ready to install the core aspects of Linux onto the drive. This process does pull files straight from the internet</p>
+    <h2>Step 1: Installing the Basic System</h2>
+    <p>You'll want to run <code>pacstrap</code> to install the base system, the Linux kernel, essential hardware firmware (linux-firmware and amd-ucode or intel-ucode), a text editor, and network management. You could replace nano with vim, but I recommend nano for beginners, it's fairly easy to get stuck in vim, we don't want that.</p>
+    <pre><code>pacstrap -K /mnt base linux linux-firmware amd-ucode nano networkmanager</code></pre>
+    <p><em>Note: If you're practicing this inside a Virtual Environment like VirtualBox or using Intel instead, you can either remove amd-ucode (VirtualBox) or replace it with intel-ucode (Intel), this microcode must be loaded by our bootloader, which for this guide will be GRUB, will be loaded before the linux kernel starts.</em></p>
+    <h2>Step 2: Generating a filesystem table</h2>
+    <p>Next in our installation process, we need to make a filesystem table, often abbreviated to fstab. This file tells your computer precisely how and where to mount your drive partitions automatically every time it boots. We set it up with:</p>
+    <pre><code>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</code></pre>
+    <h2>Step 3: Entering the Chroot Environment</h2>
+    <p>Right now, your commands are running on the live USB installer environment. To configure your new operating system, we'll need to "Change Root" (Chroot) into the mounted drive. It switches your terminal's context so that you're working directly inside your new Arch Installation:</p>
+    <pre><code>arch-chroot /mnt</code></pre>
+    <p>You should notice now that the root text went from red to white, you're now officially inside your new system, ready for configuration.</p>
+    <!--Config-->
+    <h3>System Configuration</h3>
+    <p>Now that we're inside our new install, we need to configure core system settings. </p>
+    <h2>Step 1: Time Zone and Hardware Clock</h2>
+    <p>Firstly, you'll want to link your system's region config to your local time zone. This example uses New York, but you can swap it for your regional director (such as <code>America/Los_Angeles</code> or <code>Europe/London</code>):</p>
+    <pre><code>ln -sf /usr/share/zoneinfo/America/New_York</code></pre>
+    <p>Next up, sync your motherboard's hardware clock directly with your system's new time zone settings:</p>
+    <pre><code>hwclock --systohc</code></pre>
+    <h2>Step 2: Localization</h2>
+    <p>We need to tell Arch what languages and character formats it should support (Don't try and remove the french language pack). We're going to open the locale generator config file using that nano text editor:</p>
+    <pre><code>nano /etc/locale.gen</code></pre>
+    <p>Nano is another TUI app, moving on lines is done via the arrow keys, and any text is added before the character your cursor is currently on.</p>
+    <p><strong>How to edit this particular file in Nano:</strong></p>
+    <ol>
+        <li>Scroll down the file with the down key until you find a line that has the locale you want, in my case, this would be <code>#en_US.UTF-8 UTF-8</code></li>
+        <li>Go to the letter after the (<code>#</code>) and press backspace to uncomment that line. This activates that locale.</li>
+        <li>Save and exit by pressing <strong>Ctrl + O</strong>, pressing <strong>enter</strong> to confirm the file name, then pressing <strong>Ctrl + X</strong> to exit.</li>
+    </ol>
+    <p>Now that the file is saved. we will compile and generate local language files:</p>
+    <pre><code>locale-gen</code></pre>
+    <p>Lastly, set your system language preference so it permanently persists across reboots, which you'll want to replace en_US.UTF-8 with the locale you picked:</p>
+    <pre><code>echo "LANG=en_US.UTF-8" &gt; /etc/locale.conf</code></pre>
+    <h2>Step 3: An Actual Hostname</h2>
+    <p>Let's give your computer a unique name to identify it on your home network. You can name it whatever you like; this guide will name it <code>arch-btw</code>:</p>
+    <pre><code>echo "arch-btw" &gt; /etc/hostname</code></pre>
+    <p>Lastly for this step, to ensure your internet reconnects automatically when the computer turns on, enable NetworkManager, it's pretty good and primarily used by KDE Plasma, it's a service system, which works in the background:</p>
+    <pre><code>systemctl enable NetworkManager</code></pre>
+    <h2>Step 4: Locking Root with a Password</h2>
+    <p>Before we finish with configuration, we should set an admin password for the <code>root</code> account. Run the password manager util:</p>
+    <pre><code>passwd</code></pre>
+    <p><em>Note: When you type your password, the terminal will remain completely blank, this is for security reasons, simply just type your password blind and press Enter.</em></p>
+    <!--Grub-->
+    <h3>The Bootloader</h3>
+    <p>A bootloader is the software that wakes up your hardware and directs it to launch your operating system. Technically on UEFI you can run Arch without a bootloader, I don't recommend it though. </p>
+    <p>Firstly, we need to download the core bootloader software, which for this guide is going to be GRUB, we'll run the package installer:</p>
+    <pre><code>pacman -S grub</code></pre>
+    <p><em>Side note: while I was testing this code in my UEFI Arch Linux Virtual Machine, I got some issues with keyrings and trusts not happening. If that's the case for you, go ahead and run <code>pacman -Scc</code> selecting yes to clear cache and clean up uninstalled repos, then running <code>rm -rf /etc/pacman.d/gnupg</code>, then <code>pacman-key --init</code>, then <code>pacman-key --populate archlinux</code>, if it still doesn't work, then run <code>pacman -Sy archlinux-keyring --siglevel TrustAll</code>. Outside of that instance, never use --siglevel TrustAll, as that disables cryptographic verification and could expose you to severe security risks, as if your local mirror is compromised or you're on unencrypted public Wi-Fi, appending that allows an attacker to inject a malicious modified version of grub or efibootmgr directly into your boot partition. </em></p>
+    <p><em>Choose the specific dropdown whether you're using UEFI or BIOS</em></p>
+    <details>
+        <summary>UEFI Bootloader Installation</summary>
+        <p>Because UEFI systems interact directly with the motherboard firmware, we need to install an additional utility called <code>efibootmgr</code> to manage boot variables:</p>
+        <pre><code>pacman -S efibootmgr</code></pre>
+        <p>Now, install the GRUB bootloader into your board's NVRAM. This command tells the computer to look inside the <code>/boot</code> directory to find system startup files:</p>
+        <pre><code>grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB</code></pre>
+    </details>
+    <details>
+        <summary>Legacy BIOS Bootloader Installation</summary>
+        <p>Legacy BIOS systems install the bootloader directly onto the Master Boot Record at the very front of your drive, because of this, you must target the drive name, not a specific partition.</p>
+        <p>If you're using Virtualization software like VirtualBox or an older SATA drive, your main drive is likely <code>/dev/sda</code>. Run the installation command targeting that drive:</p>
+        <pre><code>grub-install /dev/sda</code></pre>
+        <p><em>Note: If you're for some reason doing a legacy BIOS install on an NVMe, your drive target would be <code>/dev/nvme0n1</code>. Never add a partition suffix to this command!</em></p>
+    </details>
+    <br>
+    <h2>Step 2: Generating Boot Menu Configs</h2>
+    <p>Now that the bootloader files are successfully installed onto your storage drive, we need to generate the final config file. This scan makes the actual menu you see on your display when your computer turns on:</p>
+    <pre><code>grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
+    <p>You'll want to watch the terminal screen closely as this command runs, you want to see a confirmation line pop up that says:<br>
+    <code>Found linux image: /boot/vmlinuz-linux</code></p>
+    <!--User Accounts and a Desktop-->
+    <h3>Your Account and a GUI Soon!</h3>
+    <p>Up until this point, we've been operating fully as the root user. For everyday use, running commands as root is really dangerous. We're going to make a regular user account and set up our visual desktop interface.</p>
+    <h2>Making a Standard User Account</h2>
+    <p>Run the following command to add a new user. Replace <code>username</code> with your preferred name in lowercase letters:</p>
+    <pre><code>useradd -m -G wheel -s /bin/bash username</code></pre>
+    <p>Of course, as I'm sure you want your user account to be secure as well (And also work inside the login manager), we are going to set up a password for the user account, like before, typing will remain invisible for security:</p>
+    <pre><code>passwd username</code></pre>
+    <h2>Step 2: Enabling Admin Privileges</h2>
+    <p>To allow your new user account to execute administrative tasks safely when needed, we need to install the <code>sudo</code> utility and grant access to members of the <code>wheel</code> system group:</p>
+    <pre><code>pacman -S sudo
+        echo "%wheel ALL=(ALL:ALL) ALL" &gt;&gt; /etc/sudoers.d/wheel</code></pre>
+    <h2>Step 3: Installing a Desktop Environment</h2>
+    <p>Now we're going to be installing an actual visual environment. Because driver requirements vary depending on whether you are installing on real hardware or a virtual testing machine, choose the option that matches your current system setup:</p>
+    <details>
+        <summary>Physical Computer (AMD Graphics Hardware)</summary>
+        <p>This installs the Xorg display server, core KDE Plasma Desktop, SDDM Login Screen manager, basic apps (Konsole terminal, Dolphin file browser), and open-source AMD GPU graphics drivers:</p>
+        <pre><code>pacman -S xorg plasma-desktop sddm konsole dolphin xf86-video-amdgpu mesa lib32-mesa</code></pre>
+    </details>
+    <details>
+        <summary>Virtual Machine Setup (VirtualBox)</summary>
+        <p>Not entirely sure if there's much needed for QEMU or VMware, so for now I'll just stick to VirtualBox for this.</p>
+        <p>Installs core desktop interface along with essential virtual integration drivers so features like window resizing and shared clipboard work properly:</p>
+        <pre><code>pacman -S xorg plasma-desktop sddm konsole dolphin virtualbox-guest-utils</code></pre>
+        <p>Once installed, enable the background virtual server worker util:</p>
+        <pre><code>systemctl enable vboxservice</code></pre>
+    </details>
+    <br>
+    <h2>Step 4: Enable Graphical Login Screen</h2>
+    <p>Lastly, instruct Arch to launch your new graphical login screen automatically every single time your computer boots up, rather than dropping you into a CLI environment:</p>
+    <pre><code>systemctl enable sddm</code></pre>
+    <!--Finale-->
+    <h3>Finale: First Boot</h3>
+    <p>Your new OS should be fully built and ready to go! Run these 3 commands to exit chroot, unmount drive partitions, and shut down the system:</p>
+    <pre><code>exit
+        umount -R /mnt
+        poweroff</code></pre>
+    <p>Once your computer or virtual machine is shut down completely, remove the installation drive (Whether that's unplugging a USB or removing a virtual Disk). Turn your machine back on, and you should now have Arch Linux fully ready. Log in to SDDM and now you should see something like this:</p>
+    <div class="gallery">
+        <img src="../Files/install-guides/Arch/RevealOfTruth.png"
+    </div>
+    <p>If you see something like this. Congrats, you've just successfully manually installed Arch Linux, now, if you want to install any more packages, look them up in the arch linux package list, you can download fastfetch to proclaim "I use Arch BTW", or download Firefox to have a working internet browser, or heck, even installing a new desktop environment for customization, after all, don't let a basic installation of Arch with KDE Plasma stop you from trying out other desktop environments.</p>
 </section>
 </body>
 </html>
