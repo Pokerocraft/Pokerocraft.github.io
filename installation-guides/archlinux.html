@@ -15,35 +15,41 @@
 <section class="post-body">
     <!--Guidance-->
     <h3>How to Install Arch Linux</h3>
-    <p>Guide is meant to provide a simplified, beginner-friendly walkthrough of manually installing Arch Linux and installing the KDE Plasma Desktop Environment</p>
+    <p>Arch Linux, originally considered one of the hardest distros to install, and presumably if you try and ask, you'll be told to read the Arch Wiki, which sure is great if you have a lot of technical expertise, but the Install Guide sets up a minimal install and links for other things. This guide is meant to help you be able to get a manual installation of Arch Linux working for general use.</p>
     <!--Covering-->
-    <h3>What the guide covers</h3>
+    <h3>What to know</h3>
     <ul>
-        <li><strong>Beginner-Friendly:</strong> I will try my best to explain any commands without any of the usual dense jargon that the less tech-inclined won't really understand.</li>
-        <li><strong>KDE Plasma:</strong> A customizable desktop environment that feels familiar to Windows users.</li>
-        <li><strong>Hardware:</strong> Drivers and configs meant mainly for AMD GPUs and VirtualBox environments (Nvidia likes to keep drivers closed-source)</li>
-        <li><strong>Standard Architecture:</strong> Arch is pretty much only designed for x86-64 (AMD64) architecture, so no ARM or RISC-V unfortunately.</li>
+        <li>This Guide intends on you setting up a general desktop for Arch Linux with the KDE Plasma Desktop Environment.</li>
+        <li>You can in fact install other desktop environments, such as other standard Desktop Environments like GNOME, or XFCE, or a Window Manager like Niri, or River. This guide just covers installing KDE Plasma though</li>
+        <li>There are other bootloaders you can install, such as Systemd-boot, Grub, Efistub, Limine, or Refind, I prefer Grub, so that's what this guide will install.</li>
+        <li>There's also a few greeters to install, these essentially are a graphical iteration of a login screen, there's a few I know of, I typically stick to SDDM though, so this guide does so as well.</li>
+        <li>Arch Linux officially supports <b>only</b> the x86_64/AMD64 Architecture, which means you probably have either an Intel or AMD CPU (Unless you for some reason have a Zhaoxin or Hygon CPU) </li>
+        <li><pre><code>These types of words are meant to represent commands typed into a terminal.</code></pre></li>
     </ul>
-    <hr>
+    
     <!--Install Options-->
-    <h3>Install Path</h3>
-    <h2>Option 1: Bare Metal (Real Hardware)</h2>
+    <h3>The Installation Options</h3>
+    <details>
+        <summary>Option 1: Bare Metal (Real Hardware)</summary>
     <p>If you've decided to completely forsake Windows or are distro hopping, here's what you'll need to get started:</p>
     <ul>
-        <li>A USB Flash Drive (Probably 4GB Minimum, the ISO as of October 2026 is around 1.53 GB though)</li>
+        <li>A USB Flash Drive (Probably 4GB Minimum, the ISO as of November 2026 is around 1.2 GB though)</li>
         <li>The latest Arch Linux ISO file (Which you can download from <a href="https://archlinux.org/download/">here</a>, just scroll to HTTP Direct Downloads and pick a mirror closest to where you live for fast download speeds.)</li>
         <li>An Image Flashing utility to make your bootable drive, such as <strong>BalenaEtcher</strong>, <strong>Rufus</strong>, or <strong>Raspberry Pi Imager</strong> (Yes that is a valid image flashing utility software)</li>
         <li>Reading Comprehension</li>
     </ul>
     <p><strong>Getting Started:</strong> Download the ISO from that link. Flash the image to your USB using your image flashing util, look up your computer's boot menu shortcut key, then restart your computer and repeatedly press that boot menu key to then select your USB and boot into the installer.</p>
-
-    <h2>Option 2: Virtual Machine</h2>
+    </details>
+    
+    <details>
+    <summary>Option 2: Virtual Machine</summary>
     <p>If you're installing Arch into a Virtual Environment, you need the following:</p>
     <ul>
         <li>The latest Arch Linux ISO file (Which you can download from <a href="https://archlinux.org/download/">here</a>, just scroll to HTTP Direct Downloads and pick a mirror closest to where you live for fast download speeds.)</li>
         <li>Some virtualization software of choice, whether that be Oracle VirtualBox (Which aside from the extension pack is FOSS), VMWare Workstation Pro, QEMU, any virtualization software should work as long as you know how to set up a virtual machine in that app (This guide is meant to guide you on installing Arch, not Virtualization software)</li>
         <li>Reading Comprehension</li>
     </ul>
+    </details>
     <!--Getting Started-->
     <h3>Getting Started with Arch</h3>
     <p>Once you've restarted your computer and booted to the USB, or ran your VM with the ISO file, you should see one of these two screens.</p>
@@ -126,9 +132,22 @@
     <h3>Base System and Chroot</h3>
     <p>With our partition(s) formatted and mounted, we're now ready to install the core aspects of Linux onto the drive. This process does pull files straight from the internet</p>
     <h2>Step 1: Installing the Basic System</h2>
-    <p>You'll want to run <code>pacstrap</code> to install the base system, the Linux kernel, essential hardware firmware (linux-firmware and amd-ucode or intel-ucode), a text editor, and network management. You could replace nano with vim, but I recommend nano for beginners, it's fairly easy to get stuck in vim, we don't want that.</p>
-    <pre><code>pacstrap -K /mnt base linux linux-firmware amd-ucode nano networkmanager</code></pre>
-    <p><em>Note: If you're practicing this inside a Virtual Environment like VirtualBox or using Intel instead, you can either remove amd-ucode (VirtualBox) or replace it with intel-ucode (Intel), this microcode must be loaded by our bootloader, which for this guide will be GRUB, will be loaded before the linux kernel starts.</em></p>
+    <p>In order to set up the base system before we change our root from the ISO to the actual Linux Partition, we first need to install our base system, the Linux Kernel, essential hardware firmware (Such as the binary firmware files that the kernel loads onto hardware devices to ensure they work properly, or processor microcode to ensure there's no hardware quirks), a text editor, and also network management, for the text editor and network manager, I recommend nano and NetworkManager (You Can use vim or emacs, I prefer nano though). Open the section specific to your CPU type</p>
+    <details>
+        <summary>Example for Installing on Physical Hardware (AMD CPU)</summary>
+        <pre><code>pacstrap -K /mnt base linux linux-firmware amd-ucode nano networkmanager</code></pre>
+    </details>
+    <details>
+        <summary>Example for Installing on Physical Hardware (Intel CPU)</summary>
+        <pre><code>pacstrap -K /mnt base linux linux-firmware intel-ucode nano networkmanager</code></pre>
+    </details>
+    <details>
+        <summary>Example for Installing in a Virtual Machine</summary>
+        <p>In a Virtual Machine, it seems to be recommended to install microcode on the host instead of in the VM, so we don't need the microcode in this instance.</p>
+        <pre><code>pacstrap -K /mnt base linux linux-firmware nano networkmanager</code></pre>
+    </details>
+    <p><em>Note: pacstrap is a wrapper script around pacman, so aside from the -K flag and the location, which initializes a fresh pacman keyring inside the location's loot, you can technically run pacstrap, or pacman, or any other package management utilities, multiple times installing each package individually, it's actually better to add the packages together with spaces between, as that chains packages into one line that installs all packages at once.</em></p>
+    
     <h2>Step 2: Generating a filesystem table</h2>
     <p>Next in our installation process, we need to make a filesystem table, often abbreviated to fstab. This file tells your computer precisely how and where to mount your drive partitions automatically every time it boots. We set it up with:</p>
     <pre><code>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</code></pre>
@@ -179,7 +198,8 @@
         <p>Because UEFI systems interact directly with the motherboard firmware, we need to install an additional utility called <code>efibootmgr</code> to manage boot variables:</p>
         <pre><code>pacman -S efibootmgr</code></pre>
         <p>Now, install the GRUB bootloader into your board's NVRAM. This command tells the computer to look inside the <code>/boot</code> directory to find system startup files:</p>
-        <pre><code>grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB</code></pre>
+        <pre><code>grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable</code></pre>
+        <p><em>Note: grub-install without the removable flag (The --removable part) does work, though will not work if excluded on external or portable drives, if your motherboard rejects NVRAM updates, resets boot entries or only boots from that fallback path.</em></p>
     </details>
     <details>
         <summary>Legacy BIOS Bootloader Installation</summary>
@@ -205,17 +225,34 @@
     <h2>Step 2: Enabling Admin Privileges</h2>
     <p>To allow your new user account to execute administrative tasks safely when needed, we need to install the <code>sudo</code> utility and grant access to members of the <code>wheel</code> system group:</p>
     <pre><code>pacman -S sudo
-        echo "%wheel ALL=(ALL:ALL) ALL" &gt;&gt; /etc/sudoers.d/wheel</code></pre>
+echo "%wheel ALL=(ALL:ALL) ALL" &gt;&gt; /etc/sudoers.d/wheel</code></pre>
     <h2>Step 3: Installing a Desktop Environment</h2>
     <p>Now we're going to be installing an actual visual environment. Because driver requirements vary depending on whether you are installing on real hardware or a virtual testing machine, choose the option that matches your current system setup:</p>
+    <p><em>Note: You may find issues relating to specifically being unable to find a lib32 package, as the 32-bit packages are located in multilib, which requires removing the comment for multilib in /etc/pacman.conf, and then running: <pre><code>pacman -Sy</code></pre></em></p>
+    <p><em>November 17th Update: While updating this guide so Nvidia People can follow it, I forgot that some GPU families are no longer supported, so you'll want to look at what family your GPU is part of, I'll share the one from the Arch Wiki, and also the GPU Family one.</em></p>
+    <div class="gallery">
+        <img src="../Files/install-guides/Arch/ArchWikiNvidia.png">
+        <p>If you're using something older than a GeForce 7950 GX2... You're out of luck, as those are completely unsupported.</p>
+        <a href="https://nouveau.freedesktop.org/CodeNames.html">This website shows up to the Ada Lovelace Architecture, The Blackwell Architecture is your RTX 50 series, there currently is no higher level consumer GPUs of the Rubin or Feynman, the former being currently dedicated to datacenters, and the latter not coming out until 2028.</a>
+        <a href="https://wiki.archlinux.org/title/NVIDIA">Here's if you want the driver locations for yourself.</a>
+    </div>
+    <p>For those installing on physical hardware, it's recommended to edit pacman.conf, which you can easily edit via <code>nano /etc/pacman.conf</code>, then go down until you can find multilib, and uncomment the two lines for it, then update the package management list via <code>pacman -Sy</code></p>
     <details>
         <summary>Physical Computer (AMD Graphics Hardware)</summary>
         <p>This installs the Xorg display server, core KDE Plasma Desktop, SDDM Login Screen manager, basic apps (Konsole terminal, Dolphin file browser), and open-source AMD GPU graphics drivers:</p>
-        <pre><code>pacman -S xorg plasma-desktop sddm konsole dolphin xf86-video-amdgpu mesa lib32-mesa</code></pre>
+        <pre><code>pacman -S linux-headers xorg plasma-desktop sddm konsole dolphin xf86-video-amdgpu mesa lib32-mesa</code></pre>
+    </details>
+    <details>
+        <summary>Physical Computer (Nvidia Graphics Hardware)</summary>
+        <p>This installs the Xorg display server, core KDE Plasma Desktop, SDDM Login Screen manager, basic apps (Konsole terminal, Dolphin file browser), and open-source Nvidia GPU graphics drivers:</p>
+        <p><em>Note: This should work for GPUs part of the Blackwell, Ada Lovelace, Ampere*, or Turing GPU Microarchitecture families, if your GPU is not part of those Microarchitectures, then don't install the nvidia drivers, we'll do that at the end of this guide.</em></p>
+        <pre><code>pacman -S linux-headers xorg plasma-desktop sddm konsole dolphin nvidia-open-dkms nvidia-utils lib32-nvidia-utils</code></pre>
+        
+        
+        
     </details>
     <details>
         <summary>Virtual Machine Setup (VirtualBox)</summary>
-        <p>Not entirely sure if there's much needed for QEMU or VMware, so for now I'll just stick to VirtualBox for this.</p>
         <p>Installs core desktop interface along with essential virtual integration drivers so features like window resizing and shared clipboard work properly:</p>
         <pre><code>pacman -S xorg plasma-desktop sddm konsole dolphin virtualbox-guest-utils</code></pre>
         <p>Once installed, enable the background virtual server worker util:</p>
@@ -229,13 +266,32 @@
     <h3>Finale: First Boot</h3>
     <p>Your new OS should be fully built and ready to go! Run these 3 commands to exit chroot, unmount drive partitions, and shut down the system:</p>
     <pre><code>exit
-        umount -R /mnt
-        poweroff</code></pre>
+umount -R /mnt
+poweroff</code></pre>
     <p>Once your computer or virtual machine is shut down completely, remove the installation drive (Whether that's unplugging a USB or removing a virtual Disk). Turn your machine back on, and you should now have Arch Linux fully ready. Log in to SDDM and now you should see something like this:</p>
     <div class="gallery">
         <img src="../Files/install-guides/Arch/RevealOfTruth.png">
     </div>
     <p>If you see something like this. Congrats, you've just successfully manually installed Arch Linux, now, if you want to install any more packages, look them up in the arch linux package list, you can download fastfetch to proclaim "I use Arch BTW", or download Firefox to have a working internet browser, or heck, even installing a new desktop environment for customization, after all, don't let a basic installation of Arch with KDE Plasma stop you from trying out other desktop environments.</p>
+    <p>For those who want their Nvidia Drivers from above that are currently using Nouveau, </p>
+    <details>
+        <summary>Downloading from the AUR (Plus Nvidia Driver Stuff)</summary>
+        <p>If you're one of the Nvidia Users who use one of the legacy GPU families, you'll need to use the Arch User Repository, or the AUR for short. I will say that typically you will want to be careful about installing from the AUR, especially as there have been instances of malware affecting the AUR.</p>
+        <p>In order to not have to type a lot, we're going to install an AUR helper in yay, first type the following:</p>
+        <pre><code>pacman -S --needed git base-devel</code></pre>
+        <p>After this, you'll probably want to go to a home directory, as we'll next clone the yay repository from the AUR with this line:</p>
+        <pre><code>git clone https://aur.archlinux.org/yay.git</code></pre>
+        <p>With this, we now have a directory labeled yay, which we want to go into, so we change the directory to yay with <code>cd yay</code>.</p>
+        <pre><code>makepkg -si</code></pre>
+        <p>Now, this builds the package to fully work, though that one compiles from source, if you add -bin to yay.git when running git clone, you then have the binary, which in that instance you have yay-bin, which you then make the package as well, and after that, we have an AUR Helper. You can now install more packages, but be careful.</p>
+        <p>For those here looking for a specific Nvidia GPU Driver, we'll install them here.</p>
+        <details>
+            <summary>Installing a particular Nvidia Driver.</summary>
+            <p>With the desktop environment set up and the Kernel allowing this to hopefully work via Nouveau, we'll install our desired Drivers from the AUR, this example will use the packages for the Tesla Microarchitecture, but for newer ones, you can just replace the 340xx with a different version, like 580xx for Maxwell-Volta, or Ampere (Which is recommended for those with laptops of that GPU family experiencing crashes or if you need the proprietary kernel modules) or Turing/Ada Lovelace GPUs, though the official one is better for this. In order to install such a thing, you'll want to run this command: </p>
+            <pre><code>yay -S nvdia-340xx-dkms nvidia-340xx-utils lib32-nvidia-340xx-utils</code></pre>
+            <p><em>Note: Because yay works like pacman, these are in fact 3 AUR packages chained together into 1 giant install script, you can also change these packages to fit your GPU</em></p>
+        </details>
+    </details>
 </section>
 </body>
 </html>
