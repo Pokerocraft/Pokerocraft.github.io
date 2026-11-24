@@ -160,7 +160,7 @@
     <p>Now that we're inside our new install, we need to configure core system settings. </p>
     <h2>Step 1: Time Zone and Hardware Clock</h2>
     <p>Firstly, you'll want to link your system's region config to your local time zone. This example uses New York, but you can swap it for your regional director (such as <code>America/Los_Angeles</code> or <code>Europe/London</code>):</p>
-    <pre><code>ln -sf /usr/share/zoneinfo/America/New_York</code></pre>
+    <pre><code>ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime</code></pre>
     <p>Next up, sync your motherboard's hardware clock directly with your system's new time zone settings:</p>
     <pre><code>hwclock --systohc</code></pre>
     <h2>Step 2: Localization</h2>
@@ -288,7 +288,7 @@ poweroff</code></pre>
         <details>
             <summary>Installing a particular Nvidia Driver.</summary>
             <p>With the desktop environment set up and the Kernel allowing this to hopefully work via Nouveau, we'll install our desired Drivers from the AUR, this example will use the packages for the Tesla Microarchitecture, but for newer ones, you can just replace the 340xx with a different version, like 580xx for Maxwell-Volta, or Ampere (Which is recommended for those with laptops of that GPU family experiencing crashes or if you need the proprietary kernel modules) or Turing/Ada Lovelace GPUs, though the official one is better for this. In order to install such a thing, you'll want to run this command: </p>
-            <pre><code>yay -S nvdia-340xx-dkms nvidia-340xx-utils lib32-nvidia-340xx-utils</code></pre>
+            <pre><code>yay -S nvidia-340xx-dkms nvidia-340xx-utils lib32-nvidia-340xx-utils</code></pre>
             <p><em>Note: Because yay works like pacman, these are in fact 3 AUR packages chained together into 1 giant install script, you can also change these packages to fit your GPU</em></p>
         </details>
     </details>
